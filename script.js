@@ -6,8 +6,9 @@ $(document).ready(function() {
       var input = $(this);
       var username = input.val();
 
-      console.log("username was: " + username);
-      getGithubInfo(username);
+      var data = getGithubInfo(username);
+      var user = showUser(data);
+      $("#profile h2").text(user.login + " is GitHub user #" + user.id);
     }
   });
 });
@@ -20,7 +21,15 @@ function getGithubInfo(username) {
   xmlhttp.open("GET", url, false);
   xmlhttp.send();
 
-  var data = xmlhttp.responseText;
+  return xmlhttp;
+}
 
-  console.log(data);
+function showUser(xmlhttp) {
+  if(xmlhttp.status === 200) {
+    // show the user details
+    var json = xmlhttp.responseText;
+    return  JSON.parse(json);
+  } else {
+    // show an error
+  }
 }
