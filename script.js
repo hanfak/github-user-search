@@ -5,10 +5,14 @@ $(document).ready(function() {
     if (event.which === 13) { // check the key was <enter>
       var input = $(this);
       var username = input.val();
-
-      var data = getGithubInfo(username);
-      var user = showUser(data);
-      $("#profile h2").text(user.login + " is GitHub user #" + user.id);
+      $(this).val("");
+      var response = getGithubInfo(username);
+      if (response.status == 200) {
+        showUser(JSON.parse(response.responseText));
+        console.log(JSON.parse(response.responseText));
+      } else {
+        //other
+      }
     }
   });
 });
@@ -24,12 +28,10 @@ function getGithubInfo(username) {
   return xmlhttp;
 }
 
-function showUser(xmlhttp) {
-  if(xmlhttp.status === 200) {
-    // show the user details
-    var json = xmlhttp.responseText;
-    return  JSON.parse(json);
-  } else {
-    // show an error
-  }
+function showUser(user) {
+  $('#profile .information').show();
+  $('#profile .avatar').show();
+  $('#profile h2').html(user.login + " is GitHub user #" + user.id);
+  $('#profile .information').html("<a class='profile' href='"+user.html_url+"'> Go to "+ user.name+"'s profile</a>");
+  $('#profile .avatar').html("<img src=" +user.avatar_url + "/>");
 }

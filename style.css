@@ -31,11 +31,15 @@ input[type='text'] {
   width: 50%;
   padding: 5px;
 }
-
+img {
+  height: 160px;
+  width: 150px;
+}
 .information, .avatar {
   vertical-align: top;
   display: inline-block;
 }
+
 
 .information {
   text-align: center;
