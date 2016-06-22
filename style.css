@@ -70,3 +70,16 @@ h2 {
 .profile:hover {
   background-color: #b300b3;
 }
+
+.details {
+  /*background-color: blue;*/
+  height: 130px;
+  width: 300px;
+  margin:0 auto;
+  padding-top:15px;
+  /*padding-bottom:15px ;*/
+}
+
+.details div{
+  padding-bottom:15px ;
+}

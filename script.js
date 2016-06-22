@@ -1,6 +1,9 @@
 // github user finder example
 
 $(document).ready(function() {
+  $("#username").focus();
+  $(".details").hide();
+
   $(document).on('keypress', '#username', function(event) {
     if (event.which === 13) { // check the key was <enter>
       var input = $(this);
@@ -15,6 +18,7 @@ function noUserExist(username) {
   $('#profile h2').html("No user by the name, " + username + ", exists.");
   $('#profile .information').hide();
   $('#profile .avatar').hide();
+  $('#profile .details').hide();
 }
 
 function getGithubInfo(username) {
@@ -26,6 +30,7 @@ function getGithubInfo(username) {
     if (xmlhttp.readyState === 4) {
       if (xmlhttp.status === 200) {
         showUser(JSON.parse(xmlhttp.responseText));
+        console.log(JSON.parse(xmlhttp.responseText));
       } else {
         noUserExist(username);
       }
@@ -39,8 +44,13 @@ function getGithubInfo(username) {
 
 function showUser(user) {
   $('#profile .information').show();
+  $('#profile .details').show();
   $('#profile .avatar').show();
   $('#profile h2').html(user.login + " is GitHub user #" + user.id);
   $('#profile .information').html("<a class='profile' href='"+user.html_url+"'> Go to "+ user.name+"'s profile</a>");
   $('#profile .avatar').html("<img src=" +user.avatar_url + "/>");
+  $('#profile .details #followers').html( user.followers );
+  $('#profile .details #following').html( user.following );
+  $('#profile .details #location').html( user.location );
+  $('#profile .details #repos').html( user.public_repos );
 }
