@@ -6,14 +6,7 @@ $(document).ready(function() {
       var input = $(this);
       var username = input.val();
       $(this).val("");
-      var response = getGithubInfo(username);
-      if (response.status == 200) {
-        showUser(JSON.parse(response.responseText));
-        console.log(JSON.parse(response.responseText));
-      } else {
-        //other
-        noUserExist(username);
-      }
+      getGithubInfo(username);
     }
   });
 });
@@ -28,10 +21,20 @@ function getGithubInfo(username) {
   var url = "https://api.github.com/users/" + username;
 
   var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("GET", url, false);
-  xmlhttp.send();
-
-  return xmlhttp;
+  xmlhttp.open("GET", url, true);
+  xmlhttp.onload = function (e) {
+    if (xmlhttp.readyState === 4) {
+      if (xmlhttp.status === 200) {
+        showUser(JSON.parse(xmlhttp.responseText));
+      } else {
+        noUserExist(username);
+      }
+    }
+  };
+  xmlhttp.onerror = function (e) {
+    console.error(xmlhttp.statusText);
+  };
+  xmlhttp.send(null);
 }
 
 function showUser(user) {
