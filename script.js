@@ -12,11 +12,17 @@ $(document).ready(function() {
         console.log(JSON.parse(response.responseText));
       } else {
         //other
+        noUserExist(username);
       }
     }
   });
 });
 
+function noUserExist(username) {
+  $('#profile h2').html("No user by the name, " + username + ", exists.");
+  $('#profile .information').hide();
+  $('#profile .avatar').hide();
+}
 
 function getGithubInfo(username) {
   var url = "https://api.github.com/users/" + username;
